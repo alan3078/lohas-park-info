@@ -8,7 +8,7 @@ import './next-train.scss'
 
 const NextTrain: React.FunctionComponent = () => {
   const [nextTrainData, setNextTrainData] = useState([] as line[])
-  const [timeStamp, setTimeStamp] = useState<Date>(new Date())
+  const timeStamp = new Date()
 
   const download = () => {
     getNextTrainData().then((result: NextTrainResponse) => {
