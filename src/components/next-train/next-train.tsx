@@ -28,7 +28,6 @@ const NextTrain: React.FunctionComponent = () => {
     const timer = setTimeout(() => setTimes({ num: time.num + 1 }), 1000)
     setTimeStamp({ varTwo: new Date() })
     if (counter.current % 30 === 0) {
-      alert(JSON.stringify(timeUpdate.varOne))
       download()
       setTimeUpdate({ varOne: new Date() })
     }
@@ -45,7 +44,7 @@ const NextTrain: React.FunctionComponent = () => {
       <Container>
         最後更新時間: {timeUpdate.varOne.toLocaleTimeString()}
         <br />
-        MTR Next Train v1.1(Test)
+        MTR Next Train
         <br />
         {nextTrainData.length > 0
           ? nextTrainData.map(trainData => {
