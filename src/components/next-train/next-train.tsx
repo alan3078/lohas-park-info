@@ -3,6 +3,7 @@ import { Container } from 'react-bootstrap'
 import getNextTrainData from './next-train-service'
 import { NextTrainResponse, line } from '../../typings/NextTrainResponse'
 import { msToTime } from '../../helpers/msToTime'
+import { useTranslation } from 'react-i18next'
 
 import './next-train.scss'
 
@@ -12,6 +13,8 @@ const NextTrain: React.FunctionComponent = () => {
   const [timeStamp, setTimeStamp] = useState({ varTwo: new Date() })
   const [time, setTimes] = useState({ num: 0 })
   const counter = useRef(0)
+  const { t } = useTranslation()
+
   const download = () => {
     getNextTrainData()
       .then((result: NextTrainResponse) => {
@@ -42,34 +45,34 @@ const NextTrain: React.FunctionComponent = () => {
   return (
     <div className="center">
       <Container>
-        最後更新時間: {timeUpdate.varOne.toLocaleTimeString()}
+        {t('nextTrain:latestUpdate')}: {timeUpdate.varOne.toLocaleTimeString()}
         <br />
-        MTR Next Train
+        {t('common:nextTrain')}
         <br />
         {nextTrainData.length > 0
           ? nextTrainData.map(trainData => {
-              return (
-                <li className="train-list" key={trainData.ttnt}>
-                  {trainData.time}
-                  {Date.parse(trainData.time) - timeStamp.varTwo.getTime() <
+            return (
+              <li className="train-list" key={trainData.ttnt}>
+                {trainData.time}
+                {Date.parse(trainData.time) - timeStamp.varTwo.getTime() <
                   0
-? (
+                  ? (
                     <span>
                       <br />
                       走左喇, 下架啦！
                     </span>
                   )
-: (
+                  : (
                     <span>
-                      <br></br>Remaing Time:{' '}
+                      <br></br>{t('nextTrain:remainingTime')}:{' '}
                       {msToTime(
                         Date.parse(trainData.time) - timeStamp.varTwo.getTime()
                       )}
                     </span>
                   )}
-                </li>
-              )
-            })
+              </li>
+            )
+          })
           : '已經無車啦'}
       </Container>
     </div>
