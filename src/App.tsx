@@ -1,14 +1,14 @@
-import React from 'react';
+import React from 'react'
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import TopNavBar from './components/top-nav-bar/top-nav-bar';
-import NextTrain from './components/next-train/next-train';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import TopNavBar from './components/top-nav-bar/top-nav-bar'
+import NextTrain from './components/next-train/next-train'
 
 const App: React.FC<{}> = () => (
-    <>
+  <>
     <TopNavBar />
-      <NextTrain />
-    </>
-  )
+    <NextTrain />
+  </>
+)
 
-export default App;
+export default App
