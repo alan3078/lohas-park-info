@@ -48,17 +48,18 @@ const NextTrain: React.FunctionComponent = () => {
         <br />
         {nextTrainData.length > 0
           ? nextTrainData.map(trainData => {
-            return (
-              <li className="train-list" key={trainData.ttnt}>
-                {trainData.time}
-                {Date.parse(trainData.time) - timeStamp.varTwo.getTime() <
+              return (
+                <li className="train-list" key={trainData.ttnt}>
+                  {trainData.time}
+                  {Date.parse(trainData.time) - timeStamp.varTwo.getTime() <
                   0
-                  ? (
+? (
                     <span>
-                      <br />走左喇, 下架啦！
+                      <br />
+                      走左喇, 下架啦！
                     </span>
                   )
-                  : (
+: (
                     <span>
                       <br></br>Remaing Time:{' '}
                       {msToTime(
@@ -66,9 +67,9 @@ const NextTrain: React.FunctionComponent = () => {
                       )}
                     </span>
                   )}
-              </li>
-            )
-          })
+                </li>
+              )
+            })
           : '已經無車啦'}
       </Container>
     </div>
