@@ -5,7 +5,6 @@ import { NextTrainResponse, line } from '../../typings/NextTrainResponse';
 import { msToTime } from '../../helpers/msToTime';
 
 import './next-train.scss'
-import { setSyntheticLeadingComments } from 'typescript';
 
 const NextTrain: React.FunctionComponent = () => {
   const [nextTrainData, setNextTrainData] = useState([] as line[])
