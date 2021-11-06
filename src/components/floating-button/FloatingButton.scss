@@ -1,0 +1,19 @@
+@import '../../variables.scss';
+
+.language-circle-btn {
+  position: absolute;
+  left: 91%;
+  top: 90%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%); /* for IE 9 */
+  -webkit-transform: translate(-50%, -50%); /* for Safari */
+  text-align: center;
+  width: 45px;
+  height: 45px;
+  border: 2px solid $lohas-green;
+  background-color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

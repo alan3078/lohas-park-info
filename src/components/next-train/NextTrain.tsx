@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Container, Spinner } from 'react-bootstrap'
-import getNextTrainData from './next-train-service'
+import getNextTrainData from './NextTrainService'
 import { NextTrainResponse, line } from '../../typings/NextTrainResponse'
 import { msToTime } from '../../helpers/msToTime'
 import { useTranslation } from 'react-i18next'
 
-import NextTrainCard from '../next-train-card/next-train-card'
-import './next-train.scss'
+import NextTrainCard from '../next-train-card/NextTrainCard'
+import './NextTrain.scss'
 
 const NextTrain: React.FunctionComponent = () => {
   const [nextTrainData, setNextTrainData] = useState([] as line[])
@@ -48,7 +48,7 @@ const NextTrain: React.FunctionComponent = () => {
   return (
     <div>
       <Container>
-        最後更新時間: {timeUpdate.varOne.toLocaleTimeString()}{' '}{isLoading && (
+        {t('nextTrain:latestUpdate')}: {timeUpdate.varOne.toLocaleTimeString()}{' '}{isLoading && (
           <span >
             <Spinner
               as="span"
@@ -65,18 +65,18 @@ const NextTrain: React.FunctionComponent = () => {
 
         {nextTrainData.length > 0
           ? nextTrainData.map(trainData => {
-            const validTime: boolean = Date.parse(trainData.time) - timeStamp.varTwo.getTime() < 0
-            const remainingTime = msToTime(
-              Date.parse(trainData.time) - timeStamp.varTwo.getTime()
-            )
+            const remainingTime =
+              Date.parse(trainData.time.replace(/-/g, '/')) - timeStamp.varTwo.getTime()
 
-            const cardText = validTime
-              ? '走左喇, 下架啦！'
-              : 'Remaing Time:' + remainingTime
+            const displayTime = msToTime(remainingTime)
+
+            const cardText = remainingTime < 0
+              ? t('nextTrain:trainLeft')
+              : t('nextTrain:remainingTime') + ': ' + displayTime
 
             return (
               <>
-                <NextTrainCard key={trainData.ttnt} title={trainData.time} text={cardText}/>
+                <NextTrainCard key={trainData.ttnt} title={trainData.time} text={cardText} />
               </>
             )
           })

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card } from 'react-bootstrap'
-import './next-train-card.scss'
+import './NextTrainCard.scss'
 
 interface NextTrainCardProps {
   title: string

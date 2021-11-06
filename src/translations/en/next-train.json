@@ -1,4 +1,5 @@
 {
   "latestUpdate": "Latest update",
-  "remainingTime": "Remaining Time"
+  "remainingTime": "Remaining Time",
+  "trainLeft":"Train has left"
 }
