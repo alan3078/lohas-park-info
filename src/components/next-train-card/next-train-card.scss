@@ -1,0 +1,8 @@
+@import '../../variables.scss';
+
+.card-style {
+  border-top-color: $lohas-green;
+  border-top-width: 0.1875rem;
+  border-radius: 0.3125rem 0.3125rem 0.625rem 0.625rem;
+  margin-bottom: 10px;
+}

@@ -1,14 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { Container } from 'react-bootstrap'
+import { Container, Spinner } from 'react-bootstrap'
 import getNextTrainData from './next-train-service'
 import { NextTrainResponse, line } from '../../typings/NextTrainResponse'
 import { msToTime } from '../../helpers/msToTime'
 import { useTranslation } from 'react-i18next'
 
+import NextTrainCard from '../next-train-card/next-train-card'
 import './next-train.scss'
 
 const NextTrain: React.FunctionComponent = () => {
   const [nextTrainData, setNextTrainData] = useState([] as line[])
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [timeUpdate, setTimeUpdate] = useState({ varOne: new Date() })
   const [timeStamp, setTimeStamp] = useState({ varTwo: new Date() })
   const [time, setTimes] = useState({ num: 0 })
@@ -16,6 +18,7 @@ const NextTrain: React.FunctionComponent = () => {
   const { t } = useTranslation()
 
   const download = () => {
+    setIsLoading(true)
     getNextTrainData()
       .then((result: NextTrainResponse) => {
         const data: line[] = result.data['TKL-LHP'].DOWN
@@ -23,7 +26,7 @@ const NextTrain: React.FunctionComponent = () => {
       })
       .catch(err => {
         console.log(err)
-      })
+      }).finally(() => setIsLoading(false))
   }
 
   useEffect(() => {
@@ -43,34 +46,38 @@ const NextTrain: React.FunctionComponent = () => {
   }, [])
 
   return (
-    <div className="center">
+    <div>
       <Container>
-        {t('nextTrain:latestUpdate')}: {timeUpdate.varOne.toLocaleTimeString()}
+        最後更新時間: {timeUpdate.varOne.toLocaleTimeString()}{' '}{isLoading && (
+          <span >
+            <Spinner
+              as="span"
+              animation="border"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+            />
+          </span>
+        )}
         <br />
         {t('common:nextTrain')}
         <br />
+
         {nextTrainData.length > 0
           ? nextTrainData.map(trainData => {
-              return (
-                <li className="train-list" key={trainData.ttnt}>
-                  {trainData.time.replace(/-/g, '/')}
-                  {Date.parse(trainData.time.replace(/-/g, '/')) - timeStamp.varTwo.getTime() <
-                  0
-                  ? (
-                    <span>
-                      <br />
-                      走左喇, 下架啦！
-                    </span>
-                  )
-                  : (
-                    <span>
-                      <br></br>{t('nextTrain:remainingTime')}:{' '}
-                      {msToTime(
-                        Date.parse(trainData.time.replace(/-/g, '/')) - timeStamp.varTwo.getTime()
-                      )}
-                    </span>
-                  )}
-              </li>
+            const validTime: boolean = Date.parse(trainData.time) - timeStamp.varTwo.getTime() < 0
+            const remainingTime = msToTime(
+              Date.parse(trainData.time) - timeStamp.varTwo.getTime()
+            )
+
+            const cardText = validTime
+              ? '走左喇, 下架啦！'
+              : 'Remaing Time:' + remainingTime
+
+            return (
+              <>
+                <NextTrainCard key={trainData.ttnt} title={trainData.time} text={cardText}/>
+              </>
             )
           })
           : '已經無車啦'}
