@@ -3,7 +3,7 @@
 .language-circle-btn {
   position: absolute;
   left: 91%;
-  top: 90%;
+  top: 15%;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%); /* for IE 9 */
   -webkit-transform: translate(-50%, -50%); /* for Safari */
@@ -16,4 +16,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
