@@ -26,7 +26,8 @@ const NextTrain: React.FunctionComponent = () => {
       })
       .catch(err => {
         console.log(err)
-      }).finally(() => setIsLoading(false))
+      })
+      .finally(() => setIsLoading(false))
   }
 
   useEffect(() => {
@@ -48,8 +49,9 @@ const NextTrain: React.FunctionComponent = () => {
   return (
     <div>
       <Container>
-        {t('nextTrain:latestUpdate')}: {timeUpdate.varOne.toLocaleTimeString()}{' '}{isLoading && (
-          <span >
+        {t('nextTrain:latestUpdate')}: {timeUpdate.varOne.toLocaleTimeString()}{' '}
+        {isLoading && (
+          <span>
             <Spinner
               as="span"
               animation="border"
@@ -62,24 +64,29 @@ const NextTrain: React.FunctionComponent = () => {
         <br />
         {t('common:nextTrain')}
         <br />
-
         {nextTrainData.length > 0
           ? nextTrainData.map(trainData => {
-            const remainingTime =
-              Date.parse(trainData.time.replace(/-/g, '/')) - timeStamp.varTwo.getTime()
+              const remainingTime =
+                Date.parse(trainData.time.replace(/-/g, '/')) -
+                timeStamp.varTwo.getTime()
 
-            const displayTime = msToTime(remainingTime)
+              const displayTime = msToTime(remainingTime)
 
-            const cardText = remainingTime < 0
-              ? t('nextTrain:trainLeft')
-              : t('nextTrain:remainingTime') + ': ' + displayTime
+              const cardText =
+                remainingTime < 0
+                  ? t('nextTrain:trainLeft')
+                  : t('nextTrain:remainingTime') + ': ' + displayTime
 
-            return (
-              <>
-                <NextTrainCard key={trainData.ttnt} title={trainData.time} text={cardText} />
-              </>
-            )
-          })
+              return (
+                <>
+                  <NextTrainCard
+                    key={trainData.ttnt}
+                    title={trainData.time}
+                    text={cardText}
+                  />
+                </>
+              )
+            })
           : '已經無車啦'}
       </Container>
     </div>

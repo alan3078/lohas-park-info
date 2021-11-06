@@ -18,9 +18,7 @@ const NextTrainCard: React.FC<NextTrainCardProps> = ({
       <Card.Img src={img} />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
-        <Card.Text>
-          {text}
-        </Card.Text>
+        <Card.Text>{text}</Card.Text>
       </Card.Body>
     </Card>
   )
