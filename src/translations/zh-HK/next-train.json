@@ -1,5 +1,11 @@
 {
   "latestUpdate": "最後更新時間",
   "remainingTime": "餘下時間",
-  "trainLeft": "走左喇, 下架啦！"
+  "trainLeft": "走左喇, 下架啦！",
+  "fromTKL": "由調景嶺開出",
+  "fromNP": "由北角開出",
+  "TIK": "調景嶺",
+  "NOP": "北角",
+  "fromWhere": "列車開出自",
+  "northPointNotice": "北角站只會於平日、星期日及公眾假期的早上、晚上繁忙時段，以及星期六的上午07:00-10:15才有車直達康城, 敬請注意"
 }

@@ -12,10 +12,13 @@ type StationData = {
   curr_time: string
   sys_time: string
   DOWN: line[]
+  UP: line[]
 }
 
 type Station = {
   'TKL-LHP': StationData
+  'TKL-NOP': StationData
+  'TKL-TIK': StationData
 }
 
 export type NextTrainResponse = {

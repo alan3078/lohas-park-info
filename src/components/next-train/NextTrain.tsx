@@ -4,7 +4,7 @@ import getNextTrainData from './NextTrainService'
 import { NextTrainResponse, line } from '../../typings/NextTrainResponse'
 import { msToTime } from '../../helpers/msToTime'
 import { useTranslation } from 'react-i18next'
-
+import { RadioGroup, Radio, FormControl, FormLabel, FormControlLabel } from '@mui/material'
 import NextTrainCard from '../next-train-card/NextTrainCard'
 import './NextTrain.scss'
 
@@ -16,13 +16,27 @@ const NextTrain: React.FunctionComponent = () => {
   const [time, setTimes] = useState({ num: 0 })
   const counter = useRef(0)
   const { t } = useTranslation()
-
-  const download = () => {
+  const [fromWhere, setFromWhere] = useState('TIK')
+  const checkDest = (data: line[]) => {
+    const toLHP = data.filter(
+        s =>
+            s.dest === 'LHP'
+    )
+    if (toLHP) {
+      setNextTrainData(toLHP)
+    }
+}
+  const download = (fromWhere: String) => {
     setIsLoading(true)
-    getNextTrainData()
+    getNextTrainData(fromWhere)
       .then((result: NextTrainResponse) => {
-        const data: line[] = result.data['TKL-LHP'].DOWN
-        setNextTrainData(data)
+        if (fromWhere === 'TIK') {
+          const data: line[] = result.data['TKL-TIK'].UP
+          checkDest(data)
+        } else {
+          const data: line[] = result.data['TKL-NOP'].UP
+          checkDest(data)
+        }
       })
       .catch(err => {
         console.log(err)
@@ -31,24 +45,39 @@ const NextTrain: React.FunctionComponent = () => {
   }
 
   useEffect(() => {
+    download(fromWhere)
+    setTimeUpdate({ varOne: new Date() })
+  }, [fromWhere])
+
+  useEffect(() => {
     counter.current += 1
     const timer = setTimeout(() => setTimes({ num: time.num + 1 }), 1000)
     setTimeStamp({ varTwo: new Date() })
     if (counter.current % 30 === 0) {
-      download()
+      download(fromWhere)
       setTimeUpdate({ varOne: new Date() })
     }
     return () => clearTimeout(timer)
   }, [time])
 
-  useEffect(() => {
-    download()
-    setTimeUpdate({ varOne: new Date() })
-  }, [])
-
   return (
     <div>
       {t('nextTrain:latestUpdate')}: {timeUpdate.varOne.toLocaleTimeString(t('common:dateFormat'))}{' '}
+      <br />
+      <FormControl component="fieldset">
+        <FormLabel component="legend">{t('nextTrain:fromWhere')}</FormLabel>
+        <RadioGroup
+          row
+          aria-label="From"
+          defaultValue="TIK"
+          value={fromWhere}
+          onChange={(e) => { setFromWhere(e.target.value) } }
+          name="FromWhere"
+        >
+          <FormControlLabel value="TIK" control={<Radio />} label={t('nextTrain:TIK')} />
+          <FormControlLabel value="NOP" control={<Radio />} label={t('nextTrain:NOP')} />
+        </RadioGroup>
+      </FormControl>
       {isLoading && (
         <span>
           <Spinner
@@ -81,7 +110,10 @@ const NextTrain: React.FunctionComponent = () => {
               </React.Fragment>
             )
           })
-        : '已經無車啦'}
+        : fromWhere === 'NOP'
+          ? <span>{t('nextTrain:northPointNotice')}</span>
+          : <span>已經冇車喇</span>
+      }
     </div>
   )
 }
