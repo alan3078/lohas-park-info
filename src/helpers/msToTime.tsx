@@ -5,12 +5,9 @@ export const msToTime = (s: number) => {
   s = (s - secs) / 60
   const mins = s % 60
   const hrs = (s - mins) / 60
-  const hrsString = hrs.toString()
-  const minsString = mins.toString()
-  const secsString = secs.toString()
   if (hrs !== 0) {
-    return hrsString + ':' + minsString + ':' + secsString
+    return hrs + ':' + mins + ':' + secs
   } else {
-    return minsString + ':' + secsString
+    return mins + ':' + secs
   }
 }

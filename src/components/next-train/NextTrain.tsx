@@ -48,7 +48,7 @@ const NextTrain: React.FunctionComponent = () => {
 
   return (
     <div>
-      {t('nextTrain:latestUpdate')}: {timeUpdate.varOne.toLocaleTimeString()}{' '}
+      {t('nextTrain:latestUpdate')}: {timeUpdate.varOne.toLocaleTimeString(t('common:dateFormat'))}{' '}
       {isLoading && (
         <span>
           <Spinner
