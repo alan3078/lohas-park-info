@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { Spinner } from 'react-bootstrap'
+import { Spinner, Form } from 'react-bootstrap'
 import getNextTrainData from './NextTrainService'
 import { NextTrainResponse, line } from '../../typings/NextTrainResponse'
 import { msToTime } from '../../helpers/msToTime'
 import { useTranslation } from 'react-i18next'
-import { RadioGroup, Radio, FormControl, FormLabel, FormControlLabel } from '@mui/material'
 import NextTrainCard from '../next-train-card/NextTrainCard'
 import './NextTrain.scss'
 
@@ -25,7 +24,11 @@ const NextTrain: React.FunctionComponent = () => {
     if (toLHP) {
       setNextTrainData(toLHP)
     }
-}
+  }
+  const fromWhereOption = [
+    { name: t('nextTrain:TIK'), value: 'TIK' },
+    { name: t('nextTrain:NOP'), value: 'NOP' }
+  ]
   const download = (fromWhere: String) => {
     setIsLoading(true)
     getNextTrainData(fromWhere)
@@ -43,7 +46,6 @@ const NextTrain: React.FunctionComponent = () => {
       })
       .finally(() => setIsLoading(false))
   }
-
   useEffect(() => {
     download(fromWhere)
     setTimeUpdate({ varOne: new Date() })
@@ -63,21 +65,23 @@ const NextTrain: React.FunctionComponent = () => {
   return (
     <div>
       {t('nextTrain:latestUpdate')}: {timeUpdate.varOne.toLocaleTimeString(t('common:dateFormat'))}{' '}
-      <br />
-      <FormControl component="fieldset">
-        <FormLabel component="legend">{t('nextTrain:fromWhere')}</FormLabel>
-        <RadioGroup
-          row
-          aria-label="From"
-          defaultValue="TIK"
-          value={fromWhere}
-          onChange={(e) => { setFromWhere(e.target.value) } }
-          name="FromWhere"
-        >
-          <FormControlLabel value="TIK" control={<Radio />} label={t('nextTrain:TIK')} />
-          <FormControlLabel value="NOP" control={<Radio />} label={t('nextTrain:NOP')} />
-        </RadioGroup>
-      </FormControl>
+      <br/>
+      {t('nextTrain:fromWhere')}
+      <Form>
+        {fromWhereOption.map((fromWhereOption, idx) => (
+          <Form.Check
+            inline
+            key={idx}
+            id={`fromWhere-${idx}`}
+            label={fromWhereOption.name}
+            type="radio"
+            name="fromWhere"
+            value={fromWhereOption.value}
+            checked={fromWhere === fromWhereOption.value}
+            onChange={(e) => setFromWhere(e.currentTarget.value)}
+          />
+        ))}
+      </Form>
       {isLoading && (
         <span>
           <Spinner
@@ -89,7 +93,6 @@ const NextTrain: React.FunctionComponent = () => {
           />
         </span>
       )}
-      <br />
       {t('common:nextTrain')}
       <br />
       {nextTrainData.length > 0
