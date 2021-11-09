@@ -64,74 +64,76 @@ const NextTrain: React.FunctionComponent = () => {
   }, [time])
 
   return (
-    <div>
-      {t('nextTrain:latestUpdate')}:{' '}
-      {timeUpdate.varOne.toLocaleTimeString(t('common:dateFormat'))} <br />
-      {t('nextTrain:fromWhere')}
-      <Form>
-        {fromWhereOption.map((fromWhereOption, idx) => (
-          <Form.Check
-            inline
-            key={idx}
-            id={`fromWhere-${idx}`}
-            label={fromWhereOption.name}
-            type="radio"
-            name="fromWhere"
-            value={fromWhereOption.value}
-            checked={fromWhere === fromWhereOption.value}
-            onChange={e => setFromWhere(e.currentTarget.value)}
-          />
-        ))}
-      </Form>
-      {isLoading && (
-        <span>
-          <Spinner
-            as="span"
-            animation="border"
-            size="sm"
-            role="status"
-            aria-hidden="true"
-          />
-        </span>
-      )}
-      {t('common:nextTrain')}
-      {t('common:to')}
-      {fromWhere === 'TIK' || fromWhere === 'NOP'
-        ? t('nextTrain:LHP')
-        : t('nextTrain:NOP/TIK')}
-      <br />
-      {nextTrainData.length > 0
-? (
-        nextTrainData.map(trainData => {
-          const remainingTime =
-            Date.parse(trainData.time.replace(/-/g, '/')) -
-            timeStamp.varTwo.getTime()
+    <div className='next-train-wrapper'>
+      <div className='next-train-container'>
+        {t('nextTrain:latestUpdate')}:{' '}
+        {timeUpdate.varOne.toLocaleTimeString(t('common:dateFormat'))} <br />
+        {t('nextTrain:fromWhere')}
+        <Form>
+          {fromWhereOption.map((fromWhereOption, idx) => (
+            <Form.Check
+              inline
+              key={idx}
+              id={`fromWhere-${idx}`}
+              label={fromWhereOption.name}
+              type="radio"
+              name="fromWhere"
+              value={fromWhereOption.value}
+              checked={fromWhere === fromWhereOption.value}
+              onChange={e => setFromWhere(e.currentTarget.value)}
+            />
+          ))}
+        </Form>
+        {isLoading && (
+          <span>
+            <Spinner
+              as="span"
+              animation="border"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+            />
+          </span>
+        )}
+        {t('common:nextTrain')}
+        {t('common:to')}
+        {fromWhere === 'TIK' || fromWhere === 'NOP'
+          ? t('nextTrain:LHP')
+          : t('nextTrain:NOP/TIK')}
+        <br />
+        {nextTrainData.length > 0
+          ? (
+            nextTrainData.map(trainData => {
+              const remainingTime =
+                Date.parse(trainData.time.replace(/-/g, '/')) -
+                timeStamp.varTwo.getTime()
 
-          const displayTime = msToTime(
-            remainingTime,
-            t('common:hrs'),
-            t('common:mins'),
-            t('common:secs')
-          )
+              const displayTime = msToTime(
+                remainingTime,
+                t('common:hrs'),
+                t('common:mins'),
+                t('common:secs')
+              )
 
-          const cardText =
-            remainingTime < 0
-              ? t('nextTrain:trainLeft')
-              : t('nextTrain:remainingTime') + ': ' + displayTime
-          return (
-            <React.Fragment key={trainData.seq}>
-              <NextTrainCard title={trainData.time} text={cardText} />
-            </React.Fragment>
+              const cardText =
+                remainingTime < 0
+                  ? t('nextTrain:trainLeft')
+                  : t('nextTrain:remainingTime') + ': ' + displayTime
+              return (
+                <React.Fragment key={trainData.seq}>
+                  <NextTrainCard title={trainData.time} text={cardText} />
+                </React.Fragment>
+              )
+            })
           )
-        })
-      )
-: fromWhere === 'NOP'
-? (
-        <span>{t('nextTrain:northPointNotice')}</span>
-      )
-: (
-        <span>已經冇車喇</span>
-      )}
+          : fromWhere === 'NOP'
+            ? (
+              <span>{t('nextTrain:northPointNotice')}</span>
+            )
+            : (
+              <span>已經冇車喇</span>
+            )}
+      </div>
     </div>
   )
 }
