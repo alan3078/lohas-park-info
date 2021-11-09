@@ -6,6 +6,8 @@
   "fromNP": "From North Point",
   "TIK": "Tiu Keng Leng",
   "NOP": "North Point",
+  "LHP": "Lohas Park",
+  "NOP/TIK": "North Point or Tiu Keng Leng",
   "fromWhere": "The train start from",
   "northPointNotice": "North Point Station will only have direct access to Lohas Park in the morning and evening peak hours on weekdays, Sundays and public holidays, and 07:00-10:15 on Saturdays."
 }

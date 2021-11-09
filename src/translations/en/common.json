@@ -3,5 +3,9 @@
   "en": "ENG",
   "zh-HK": "中文",
   "nextTrain": "Next Train",
-  "dateFormat": "en-US"
+  "dateFormat": "en-US",
+  "to": " to ",
+  "hrs": "h",
+  "mins": "m",
+  "secs": "s"
 }

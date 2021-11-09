@@ -27,7 +27,8 @@ const NextTrain: React.FunctionComponent = () => {
   }
   const fromWhereOption = [
     { name: t('nextTrain:TIK'), value: 'TIK' },
-    { name: t('nextTrain:NOP'), value: 'NOP' }
+    { name: t('nextTrain:NOP'), value: 'NOP' },
+    { name: t('nextTrain:LHP'), value: 'LHP' }
   ]
   const download = (fromWhere: String) => {
     setIsLoading(true)
@@ -36,9 +37,12 @@ const NextTrain: React.FunctionComponent = () => {
         if (fromWhere === 'TIK') {
           const data: line[] = result.data['TKL-TIK'].UP
           checkDest(data)
-        } else {
+        } else if (fromWhere === 'NOP') {
           const data: line[] = result.data['TKL-NOP'].UP
           checkDest(data)
+        } else {
+          const data: line[] = result.data['TKL-LHP'].DOWN
+          setNextTrainData(data)
         }
       })
       .catch(err => {
@@ -93,7 +97,8 @@ const NextTrain: React.FunctionComponent = () => {
           />
         </span>
       )}
-      {t('common:nextTrain')}
+      {t('common:nextTrain')}{t('common:to')}
+      {fromWhere === 'TIK' || fromWhere === 'NOP' ? t('nextTrain:LHP') : t('nextTrain:NOP/TIK')}
       <br />
       {nextTrainData.length > 0
         ? nextTrainData.map(trainData => {
@@ -101,7 +106,7 @@ const NextTrain: React.FunctionComponent = () => {
               Date.parse(trainData.time.replace(/-/g, '/')) -
               timeStamp.varTwo.getTime()
 
-            const displayTime = msToTime(remainingTime)
+            const displayTime = msToTime(remainingTime).replace(/!/g, t('common:hrs')).replace(/@/g, t('common:mins')).replace(/#/g, t('common:secs'))
 
             const cardText =
               remainingTime < 0
