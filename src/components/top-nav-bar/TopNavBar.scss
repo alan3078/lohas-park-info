@@ -1,8 +1,24 @@
+@import '../../variables.scss';
+
+// bootstrap
+.navbar-toggler {
+  padding: 0.175rem;
+}
+
 .logo {
-  height: 50px;
+  padding: 10px 0;
+  height: 45px;
   width: auto;
 }
 
+.top-nav-bar-wrapper {
+  background-color: #f9feff;
+}
+
 .top-nav-bar {
-  margin-bottom: 10px;
+  background-color: #f9feff;
+  max-width: $outer-max-width;
+  margin: 0 auto 0.625rem;
+  padding: 0 0.9375rem;
+  font-weight: bold;
 }

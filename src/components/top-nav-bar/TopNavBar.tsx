@@ -8,14 +8,14 @@ const TopNavBar: React.FunctionComponent = () => {
   const { t } = useTranslation()
 
   return (
-    <div>
-      <Navbar expand="lg" className="bg">
+    <div className="top-nav-bar-wrapper">
+      <Navbar expand="lg" className="top-nav-bar">
         <Navbar.Brand href="#home">
           <img src={logo} className="logo" alt="logo" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
+        <Navbar.Collapse className="justify-content-end">
+          <Nav>
             <Nav.Link href="#home">{t('common:nextTrain')}</Nav.Link>
           </Nav>
         </Navbar.Collapse>
