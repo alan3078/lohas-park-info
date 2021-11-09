@@ -1,14 +1,15 @@
-.center {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%); /* for IE 9 */
-  -webkit-transform: translate(-50%, -50%); /* for Safari */
-  text-align: center;
-  width: 100%;
-}
+@import '../../variables.scss';
 
 .train-list {
   list-style: decimal;
+}
+
+.next-train-wrapper {
+  background-color: #ffff;
+}
+
+.next-train-container {
+  max-width: $outer-max-width;
+  margin: 0 auto;
+  padding: 0 0.9375rem;
 }
