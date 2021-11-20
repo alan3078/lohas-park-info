@@ -15,7 +15,7 @@ const NextTrain: React.FunctionComponent = () => {
   const [time, setTimes] = useState({ num: 0 })
   const counter = useRef(0)
   const { t } = useTranslation()
-  const [fromWhere, setFromWhere] = useState('TIK')
+  const [fromWhere, setFromWhere] = useState('LHP')
   const checkDest = (data: line[]) => {
     const toLHP = data.filter(s => s.dest === 'LHP')
     if (toLHP) {
