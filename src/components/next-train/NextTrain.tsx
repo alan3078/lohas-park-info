@@ -23,9 +23,9 @@ const NextTrain: React.FunctionComponent = () => {
     }
   }
   const fromWhereOption = [
+    { name: t('nextTrain:LHP'), value: 'LHP' },
     { name: t('nextTrain:TIK'), value: 'TIK' },
-    { name: t('nextTrain:NOP'), value: 'NOP' },
-    { name: t('nextTrain:LHP'), value: 'LHP' }
+    { name: t('nextTrain:NOP'), value: 'NOP' }
   ]
   const download = (fromWhere: String) => {
     setIsLoading(true)
@@ -64,8 +64,8 @@ const NextTrain: React.FunctionComponent = () => {
   }, [time])
 
   return (
-    <div className='next-train-wrapper'>
-      <div className='next-train-container'>
+    <div className="next-train-wrapper">
+      <div className="next-train-container">
         {t('nextTrain:latestUpdate')}:{' '}
         {timeUpdate.varOne.toLocaleTimeString(t('common:dateFormat'))} <br />
         {t('nextTrain:fromWhere')}
@@ -102,37 +102,37 @@ const NextTrain: React.FunctionComponent = () => {
           : t('nextTrain:NOP/TIK')}
         <br />
         {nextTrainData.length > 0
-          ? (
-            nextTrainData.map(trainData => {
-              const remainingTime =
-                Date.parse(trainData.time.replace(/-/g, '/')) -
-                timeStamp.varTwo.getTime()
+? (
+          nextTrainData.map(trainData => {
+            const remainingTime =
+              Date.parse(trainData.time.replace(/-/g, '/')) -
+              timeStamp.varTwo.getTime()
 
-              const displayTime = msToTime(
-                remainingTime,
-                t('common:hrs'),
-                t('common:mins'),
-                t('common:secs')
-              )
-
-              const cardText =
-                remainingTime < 0
-                  ? t('nextTrain:trainLeft')
-                  : t('nextTrain:remainingTime') + ': ' + displayTime
-              return (
-                <React.Fragment key={trainData.seq}>
-                  <NextTrainCard title={trainData.time} text={cardText} />
-                </React.Fragment>
-              )
-            })
-          )
-          : fromWhere === 'NOP'
-            ? (
-              <span>{t('nextTrain:northPointNotice')}</span>
+            const displayTime = msToTime(
+              remainingTime,
+              t('common:hrs'),
+              t('common:mins'),
+              t('common:secs')
             )
-            : (
-              <span>已經冇車喇</span>
-            )}
+
+            const cardText =
+              remainingTime < 0
+                ? t('nextTrain:trainLeft')
+                : t('nextTrain:remainingTime') + ': ' + displayTime
+            return (
+              <React.Fragment key={trainData.seq}>
+                <NextTrainCard title={trainData.time} text={cardText} />
+              </React.Fragment>
+            )
+          })
+        )
+: fromWhere === 'NOP'
+? (
+          <span>{t('nextTrain:northPointNotice')}</span>
+        )
+: (
+          <span>已經冇車喇</span>
+        )}
       </div>
     </div>
   )

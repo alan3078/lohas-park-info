@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Spinner } from 'react-bootstrap'
-import getWeatherData from './WeatherService'
+import { getWeatherData, getWindSpeed } from './WeatherService'
 import {
   WeatherResponse,
   LocalWeatherData
 } from '../../typings/WeatherResponse'
 import { useTranslation } from 'react-i18next'
 import './Weather.scss'
+import { WindSpeedData, WindSpeedResponse } from '../../typings/WindSpeedResponse'
 
 const TKO = 'Tseung Kwan O'
 
@@ -20,6 +21,7 @@ const apparentTemperature = (tempature: number, windspeed: number) => {
 
 const Weather: React.FC = () => {
   const [weatherData, setWeatherData] = useState({} as LocalWeatherData)
+  const [windSpeed, setWindSpeed] = useState(0)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const { t } = useTranslation()
 
@@ -36,6 +38,17 @@ const Weather: React.FC = () => {
         console.log(err)
       })
       .finally(() => setIsLoading(false))
+    getWindSpeed()
+      .then((result: WindSpeedResponse) => {
+        const data: WindSpeedData[] = result.data.filter(
+          c => c['Automatic Weather Station'] === TKO
+        )
+        setWindSpeed(parseInt(data[0]['10-Minute Mean Speed(km/hour)'], 10))
+      })
+      .catch(err => {
+        console.log(err)
+      })
+      .finally(() => setIsLoading(false))
   }
 
   const displayWeatherTempature =
@@ -44,7 +57,7 @@ const Weather: React.FC = () => {
   const displayApparentTemperature =
     t('weather:apparent-temperature') +
     ': ' +
-    apparentTemperature(weatherData.value, kmPerHour2MeterPerSecond(5)).toFixed(
+    apparentTemperature(weatherData.value, kmPerHour2MeterPerSecond(windSpeed)).toFixed(
       2
     ) +
     t('weather:tempature-unit')
@@ -56,20 +69,20 @@ const Weather: React.FC = () => {
   return (
     <div className="weather-container">
       {isLoading
-? (
-        <span>
-          <Spinner
-            as="span"
-            animation="border"
-            size="sm"
-            role="status"
-            aria-hidden="true"
-          />
-        </span>
-      )
-: (
-        displayWeatherTempature
-      )}
+        ? (
+          <span>
+            <Spinner
+              as="span"
+              animation="border"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+            />
+          </span>
+        )
+        : (
+          displayWeatherTempature
+        )}
       <br />
       {displayApparentTemperature}
     </div>
