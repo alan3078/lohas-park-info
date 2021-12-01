@@ -29,8 +29,8 @@ const Weather: React.FC = () => {
     setIsLoading(true)
     getWeatherData()
       .then((result: WeatherResponse) => {
-        const data: LocalWeatherData[] = result.temperature.data.filter(
-          c => c.place === TKO
+        const data: LocalWeatherData[] = result.data.filter(
+          c => c['Automatic Weather Station'] === TKO
         )
         setWeatherData(data[0])
       })
@@ -52,12 +52,12 @@ const Weather: React.FC = () => {
   }
 
   const displayWeatherTempature =
-    t('weather:TKO') + ': ' + weatherData.value + t('weather:tempature-unit')
+    t('weather:lohas') + ': ' + weatherData['Air Temperature(degree Celsius)'] + t('weather:tempature-unit')
 
   const displayApparentTemperature =
     t('weather:apparent-temperature') +
     ': ' +
-    apparentTemperature(weatherData.value, kmPerHour2MeterPerSecond(windSpeed)).toFixed(
+    apparentTemperature(parseInt(weatherData['Air Temperature(degree Celsius)'], 10), kmPerHour2MeterPerSecond(windSpeed)).toFixed(
       2
     ) +
     t('weather:tempature-unit')
